@@ -1,0 +1,12 @@
+.env
+.git/
+.gitignore
+.dockerignore
+secrets/
+volumes/
+project/
+README.md
+CLAUDE.md
+Q&A.md
+TODO.md
+run.sh
