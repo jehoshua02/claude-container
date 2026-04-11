@@ -17,7 +17,7 @@ Running Claude in a container gives you:
 ## Requirements
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Docker Engine + Compose)
-- An [Anthropic API key](https://console.anthropic.com/)
+- An [Anthropic API key](https://console.anthropic.com/) or a Claude Pro/Max subscription (OAuth login)
 
 ## Setup
 
@@ -27,10 +27,11 @@ Running Claude in a container gives you:
    ```bash
    cp .env.example .env
    ```
-   Then open `.env` and set your API key:
+   Then open `.env` and set your API key (if using one):
    ```
    ANTHROPIC_API_KEY=sk-ant-...
    ```
+   If you have a Claude Pro/Max subscription, you can skip the API key and log in via OAuth on first run.
 
 3. **Put files you want Claude to work on in `./volumes/workspace/`.**
    This folder is mounted into the container at `/workspace`.
@@ -80,8 +81,9 @@ docker compose run --rm claude -p "Summarize the project"
 | Path on your machine | Path in container | Purpose |
 |---|---|---|
 | `./volumes/workspace/` | `/workspace` | Files for Claude to work with |
-| `./volumes/claude-data/` | `/home/claude/.claude` | Persisted Claude settings & history |
+| `./volumes/claude-data/` | `/home/claude/.claude` | Persisted history, sessions, plugins |
 | `./volumes/claude-settings/` | `/home/claude/.config/claude` | Persisted theme & preferences |
+| `./volumes/claude.json` | `/home/claude/.claude.json` | Legacy config file |
 | `./secrets/ssh_key` | `/run/secrets/ssh_private_key` | SSH key for private repos (optional) |
 
 All persistent data lives under `./volumes/`. Secrets live under `./secrets/`. Both are gitignored.
@@ -120,11 +122,7 @@ HTTPS remotes (e.g. `https://github.com/...`) that require authentication won't 
 - Use SSH remotes instead (recommended).
 - Pass a [personal access token](https://github.com/settings/tokens) via the URL:
   `https://<token>@github.com/org/repo.git`
-- Mount your `.gitconfig` and Git credential file:
-  ```yaml
-  - ~/.gitconfig:/home/claude/.gitconfig:ro
-  - ~/.git-credentials:/home/claude/.git-credentials:ro
-  ```
+- Configure Git credential storage inside the container.
 
 ### GPG signing
 
@@ -142,9 +140,9 @@ Plugins are installed automatically on first container startup via `services/cla
 
 The following plugins from the `jehoshua02/claude-marketplace` marketplace are installed on first run:
 
-- **stout**
-- **trail**
-- **caveman**
+- **stout** — commands by jehoshua02
+- **trail** — working log for projects and investigations
+- **claude-plugin-output-style-caveman** — caveman speak output style
 
 ### Managing plugins
 
@@ -161,28 +159,7 @@ Changes are persisted in `./volumes/claude-data/` and survive container restarts
 
 ## Customization
 
-### Mount a different directory
-
-Edit `docker-compose.yml` and change the first volume entry:
-```yaml
-volumes:
-  - /path/to/your/project:/workspace
-```
-
-### Install extra tools in the container
-
-Add `RUN apt-get install -y <package>` lines to `services/claude/Dockerfile` before the `USER claude` line, then rebuild:
-```bash
-docker compose build
-```
-
-### Run as a different user
-
-The container runs as a non-root `claude` user by default. If you hit file permission issues with mounted volumes on Linux, you can pin the UID:
-```yaml
-# in docker-compose.yml, under the claude service:
-user: "1000:1000"
-```
+The container runs as a non-root `claude` user by default. To customize the setup (different workspace path, extra tools, UID mapping), submit changes via PR.
 
 ## Limitations
 
