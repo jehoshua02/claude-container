@@ -35,6 +35,7 @@ RUN mkdir -p /home/claude/.ssh && \
     chmod 644 /home/claude/.ssh/known_hosts
 
 ENV PATH="/home/claude/.local/bin:${PATH}"
+ENV GIT_CONFIG_GLOBAL="/tmp/.gitconfig"
 USER claude
 WORKDIR /workspace
 

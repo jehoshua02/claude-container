@@ -23,3 +23,11 @@ services:
       - ./volumes/claude-settings:/home/claude/.config/claude
       - ./volumes/claude.json:/home/claude/.claude.json
     working_dir: /workspace
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /home/claude/.ssh
