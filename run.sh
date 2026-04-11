@@ -14,6 +14,8 @@ fi
 
 # Create volume dirs if they don't exist
 mkdir -p volumes/workspace volumes/claude-config
+# Ensure the secrets file exists (Docker Compose requires it even if empty)
+touch secrets/ssh_key
 
 # Build image if not already built
 docker compose build --quiet

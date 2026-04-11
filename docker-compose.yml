@@ -1,3 +1,7 @@
+secrets:
+  ssh_private_key:
+    file: ./secrets/ssh_key
+
 services:
   claude:
     build:
@@ -11,8 +15,8 @@ services:
       # Git identity — required for commits
       - GIT_USER_NAME=${GIT_USER_NAME}
       - GIT_USER_EMAIL=${GIT_USER_EMAIL}
-      # SSH private key for private repo access (optional, paste key contents)
-      - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY:-}
+    secrets:
+      - ssh_private_key
     volumes:
       - ./volumes/workspace:/workspace
       - ./volumes/claude-config:/home/claude/.claude

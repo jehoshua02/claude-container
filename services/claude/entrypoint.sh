@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-# If an SSH private key is provided, write it to ~/.ssh so git can use it
-if [ -n "$SSH_PRIVATE_KEY" ]; then
+# Set up SSH key if provided via Docker secret
+if [ -f /run/secrets/ssh_private_key ] && [ -s /run/secrets/ssh_private_key ]; then
   mkdir -p ~/.ssh
   chmod 700 ~/.ssh
-  printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+  cp /run/secrets/ssh_private_key ~/.ssh/id_rsa
   chmod 600 ~/.ssh/id_rsa
 
   # Add GitHub, GitLab, and Bitbucket to known_hosts to avoid interactive prompts

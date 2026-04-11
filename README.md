@@ -81,8 +81,9 @@ docker compose run --rm claude -p "Summarize the project"
 |---|---|---|
 | `./volumes/workspace/` | `/workspace` | Files for Claude to work with |
 | `./volumes/claude-config/` | `/home/claude/.claude` | Persisted Claude settings & history |
+| `./secrets/ssh_key` | `/run/secrets/ssh_private_key` | SSH key for private repos (optional) |
 
-All volume data lives under `./volumes/`. Nothing outside it is accessible to the container unless you add another volume mount to `docker-compose.yml`.
+All persistent data lives under `./volumes/`. Secrets live under `./secrets/`. Both are gitignored.
 
 ## Git
 
@@ -101,23 +102,15 @@ These are passed as environment variables and the entrypoint runs `git config --
 
 ### Private repos — SSH access
 
-Pass your private key contents via the `SSH_PRIVATE_KEY` environment variable in `.env`. The entrypoint script writes it to `~/.ssh/id_rsa` inside the container at startup and pre-populates `known_hosts` for GitHub, GitLab, and Bitbucket.
-
-No host filesystem paths are mounted. If `SSH_PRIVATE_KEY` is not set, no SSH config is created and the key never touches disk on the host.
-
-**Formatting the key for `.env`:**
-
-Private keys are multiline, so you need to encode the newlines as `\n` on a single line:
+Copy your private key file into the `secrets/` directory:
 
 ```bash
-# Print your key formatted for .env
-awk 'NF {printf "%s\\n", $0}' ~/.ssh/id_rsa
+cp ~/.ssh/id_rsa ./secrets/ssh_key
 ```
 
-Paste the output as the value in `.env`:
-```
-SSH_PRIVATE_KEY=-----BEGIN OPENSSH PRIVATE KEY-----\nAAA...\n-----END OPENSSH PRIVATE KEY-----\n
-```
+That's it. The entrypoint picks it up at startup via [Docker Compose secrets](https://docs.docker.com/compose/how-tos/use-secrets/), writes it to `~/.ssh/id_rsa` inside the container, and pre-populates `known_hosts` for GitHub, GitLab, and Bitbucket. The key is mounted read-only and never baked into the image.
+
+The `secrets/` directory is gitignored. If no key is present, SSH is simply not configured.
 
 ### HTTPS remotes and credentials
 
@@ -152,30 +145,9 @@ The following plugins from the `jehoshua02/claude-marketplace` marketplace are i
 - **trail**
 - **caveman**
 
-### Adding or removing plugins
+### Managing plugins
 
-Edit `services/claude/plugins.sh`:
-
-```bash
-# Add a marketplace
-claude plugin marketplace add jehoshua02/claude-marketplace
-
-# Install plugins
-claude plugin install stout@jehoshua02/claude-marketplace
-claude plugin install trail@jehoshua02/claude-marketplace
-claude plugin install caveman@jehoshua02/claude-marketplace
-```
-
-Then rebuild the image and remove the marker file to trigger re-install:
-
-```bash
-docker compose build
-rm ./volumes/claude-config/.plugins-installed
-```
-
-### Managing plugins at runtime
-
-Inside a running Claude session you can also manage plugins on the fly:
+Inside a running Claude session, manage plugins with:
 
 ```
 claude plugin list
@@ -184,7 +156,7 @@ claude plugin disable <name>@<marketplace>
 claude plugin uninstall <name>@<marketplace>
 ```
 
-Changes made at runtime are persisted in `./volumes/claude-config/`.
+Changes are persisted in `./volumes/claude-config/` and survive container restarts.
 
 ## Customization
 
@@ -214,7 +186,7 @@ user: "1000:1000"
 ## Limitations
 
 - **Git identity must be configured** — commits will fail without `GIT_USER_NAME` and `GIT_USER_EMAIL` set in `.env`. GPG signing is not supported without extra setup.
-- **SSH key is ephemeral** — `SSH_PRIVATE_KEY` is written to disk inside the container at startup and gone when the container exits. It is never stored on the host filesystem.
+- **SSH key is ephemeral** — The SSH key is written to disk inside the container at startup and gone when the container exits. The source file in `secrets/` stays on the host but is gitignored.
 - **No GUI / browser tools** — Claude Code's browser integration (Claude in Chrome, preview tools) won't work inside the container since there's no display or browser available.
 - **No host tool access** — MCP servers you have configured locally (e.g. scheduled tasks, local integrations) are not available inside the container unless you explicitly configure them in the container's Claude settings.
 - **TTY required for interactive mode** — The container needs an attached terminal (`stdin_open: true`, `tty: true`). This means it won't work well with plain `docker run -d` (detached). For non-interactive use, always pass `-p "..."` with a prompt.

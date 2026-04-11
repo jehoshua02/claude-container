@@ -1,4 +1,6 @@
 .env
+secrets/*
+!secrets/.gitkeep
 volumes/workspace/*
 volumes/claude-config/*
 !volumes/workspace/.gitkeep
