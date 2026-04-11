@@ -7,10 +7,9 @@ if [ -f /run/secrets/ssh_private_key ] && [ -s /run/secrets/ssh_private_key ]; t
   chmod 700 ~/.ssh
   cp /run/secrets/ssh_private_key ~/.ssh/id_rsa
   chmod 600 ~/.ssh/id_rsa
-
-  # Add GitHub, GitLab, and Bitbucket to known_hosts to avoid interactive prompts
-  ssh-keyscan -H github.com gitlab.com bitbucket.org >> ~/.ssh/known_hosts 2>/dev/null
-  chmod 644 ~/.ssh/known_hosts
+else
+  # No SSH key — force git to use HTTPS for GitHub so plugin installs work
+  git config --global url.'https://github.com/'.insteadOf 'git@github.com:'
 fi
 
 # Set git identity from env vars (covers both author and committer)
@@ -29,7 +28,7 @@ fi
 # Install plugins on first run (marker file prevents re-running)
 if [ -f ~/plugins.sh ] && [ ! -f ~/.claude/.plugins-installed ]; then
   echo "Installing plugins..."
-  ~/plugins.sh && touch ~/.claude/.plugins-installed
+  ~/plugins.sh && mkdir -p ~/.claude && touch ~/.claude/.plugins-installed
 fi
 
 exec claude "$@"
