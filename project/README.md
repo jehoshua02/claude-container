@@ -33,7 +33,7 @@ Files are named with zero-padded priority score prefix: `02-dockerignore.md`, `0
 | 1-backlog/  | dropped     | Item is no longer relevant. Delete the file.                      |
 | 2-todo/     | 3-doing/    | Starting work.                                                    |
 | 2-todo/     | 1-backlog/  | New questions or unknowns surfaced. Needs more refinement.        |
-| 3-doing/    | 4-done/     | Work is complete.                                                 |
+| 3-doing/    | 4-done/     | Work is complete and user has reviewed.                            |
 | 3-doing/    | 2-todo/     | Blocked or paused. Not actively being worked on.                  |
 | 3-doing/    | 1-backlog/  | Scope changed significantly. Needs re-refinement.                 |
 
@@ -46,3 +46,6 @@ Files are named with zero-padded priority score prefix: `02-dockerignore.md`, `0
 - Action items go in `1-backlog/` or `2-todo/`. Not in Q&A, README, or other docs.
 - Only move task files using transitions defined in the table above. No skipping stages.
 - Priority scores must be confirmed with the user. Suggest scores, but do not apply without user feedback.
+- User must review work before a task moves to done.
+- Move task to done before committing.
+- Commit before starting another task.
