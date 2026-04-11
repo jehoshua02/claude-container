@@ -1,0 +1,1 @@
+- Read `project/README.md` for task management workflow and prioritization rules.

@@ -1,0 +1,19 @@
+services:
+  claude:
+    build:
+      context: ./services/claude
+    image: claude-code:latest
+    container_name: claude-code
+    stdin_open: true
+    tty: true
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      # Git identity — required for commits
+      - GIT_USER_NAME=${GIT_USER_NAME}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL}
+      # SSH private key for private repo access (optional, paste key contents)
+      - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY:-}
+    volumes:
+      - ./volumes/workspace:/workspace
+      - ./volumes/claude-config:/home/claude/.claude
+    working_dir: /workspace

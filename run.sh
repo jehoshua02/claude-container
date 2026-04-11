@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+
+# Load .env if present
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
+if [ -z "$ANTHROPIC_API_KEY" ]; then
+  echo "Error: ANTHROPIC_API_KEY is not set."
+  echo "Copy .env.example to .env and add your API key."
+  exit 1
+fi
+
+# Create volume dirs if they don't exist
+mkdir -p volumes/workspace volumes/claude-config
+
+# Build image if not already built
+docker compose build --quiet
+
+# Run interactively, passing any extra args to claude (e.g. ./run.sh -p "hello")
+docker compose run --rm claude "$@"

@@ -1,0 +1,5 @@
+.env
+volumes/workspace/*
+volumes/claude-config/*
+!volumes/workspace/.gitkeep
+!volumes/claude-config/.gitkeep
