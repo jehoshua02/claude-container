@@ -23,11 +23,22 @@ services:
       - ./volumes/claude-settings:/home/claude/.config/claude
       - ./volumes/claude.json:/home/claude/.claude.json
     working_dir: /workspace
+    # Drop all Linux capabilities. The container doesn't need any (no net_bind, no chown, etc).
+    # https://docs.docker.com/reference/compose-file/services/#cap_drop
     cap_drop:
       - ALL
+    # Prevent processes from gaining new privileges via setuid/setgid binaries or capability inheritance.
+    # https://docs.docker.com/reference/compose-file/services/#security_opt
     security_opt:
       - no-new-privileges
+    # Make the entire root filesystem read-only. Processes can only write to explicitly mounted
+    # volumes (./volumes/*) and tmpfs mounts below. Limits blast radius if the container is compromised.
+    # https://docs.docker.com/reference/compose-file/services/#read_only
     read_only: true
+    # Writable scratch areas on a read-only filesystem. Contents are lost when the container stops.
+    # - /tmp: general scratch space (Claude Code, node, etc.)
+    # - /home/claude/.ssh: entrypoint writes SSH key and known_hosts here at startup
+    # https://docs.docker.com/reference/compose-file/services/#tmpfs
     tmpfs:
       - /tmp
       - /home/claude/.ssh

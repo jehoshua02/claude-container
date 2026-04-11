@@ -1,16 +1,23 @@
 #!/usr/bin/env bash
 set -e
 
+# Restore known_hosts into tmpfs (build-time copy is wiped by tmpfs mount)
+mkdir -p ~/.ssh
+cp ~/known_hosts.bak ~/.ssh/known_hosts
+
 # Set up SSH key if provided via Docker secret
 if [ -f /run/secrets/ssh_private_key ] && [ -s /run/secrets/ssh_private_key ]; then
-  mkdir -p ~/.ssh
-  chmod 700 ~/.ssh
   cp /run/secrets/ssh_private_key ~/.ssh/id_rsa
   chmod 600 ~/.ssh/id_rsa
 else
   # No SSH key — force git to use HTTPS for GitHub so plugin installs work
   git config --global url.'https://github.com/'.insteadOf 'git@github.com:'
 fi
+
+# Lock down ~/.ssh — no further writes needed
+chmod 444 ~/.ssh/known_hosts
+[ -f ~/.ssh/id_rsa ] && chmod 400 ~/.ssh/id_rsa
+chmod 500 ~/.ssh
 
 # Set git identity from env vars (covers both author and committer)
 if [ -n "$GIT_USER_NAME" ] && [ -n "$GIT_USER_EMAIL" ]; then
