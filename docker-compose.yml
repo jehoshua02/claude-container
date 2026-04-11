@@ -19,5 +19,7 @@ services:
       - ssh_private_key
     volumes:
       - ./volumes/workspace:/workspace
-      - ./volumes/claude-config:/home/claude/.claude
+      - ./volumes/claude-data:/home/claude/.claude
+      - ./volumes/claude-settings:/home/claude/.config/claude
+      - ./volumes/claude.json:/home/claude/.claude.json
     working_dir: /workspace

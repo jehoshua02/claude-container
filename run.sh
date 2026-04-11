@@ -13,9 +13,10 @@ if [ -z "$ANTHROPIC_API_KEY" ]; then
 fi
 
 # Create volume dirs if they don't exist
-mkdir -p volumes/workspace volumes/claude-config
-# Ensure the secrets file exists (Docker Compose requires it even if empty)
+mkdir -p volumes/workspace volumes/claude-data volumes/claude-settings
+# Ensure files exist so Docker doesn't create them as directories
 touch secrets/ssh_key
+[ -s volumes/claude.json ] || echo '{}' > volumes/claude.json
 
 # Build image if not already built
 docker compose build --quiet

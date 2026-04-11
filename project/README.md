@@ -45,4 +45,4 @@ Files are named with zero-padded priority score prefix: `02-dockerignore.md`, `0
 - Do not work on items without a task file.
 - Action items go in `1-backlog/` or `2-todo/`. Not in Q&A, README, or other docs.
 - Only move task files using transitions defined in the table above. No skipping stages.
-- Priority scores must be confirmed with the user. Do not score items unilaterally.
+- Priority scores must be confirmed with the user. Suggest scores, but do not apply without user feedback.

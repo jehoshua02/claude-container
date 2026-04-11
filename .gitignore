@@ -2,6 +2,9 @@
 secrets/*
 !secrets/.gitkeep
 volumes/workspace/*
-volumes/claude-config/*
+volumes/claude-data/*
+volumes/claude.json
+volumes/claude-settings/*
 !volumes/workspace/.gitkeep
-!volumes/claude-config/.gitkeep
+!volumes/claude-data/.gitkeep
+!volumes/claude-settings/.gitkeep

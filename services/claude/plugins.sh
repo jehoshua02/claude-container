@@ -16,4 +16,4 @@ claude plugin marketplace add jehoshua02/claude-marketplace
 # Format: claude plugin install <name>@<marketplace>
 claude plugin install stout@jehoshua02/claude-marketplace
 claude plugin install trail@jehoshua02/claude-marketplace
-claude plugin install caveman@jehoshua02/claude-marketplace
+claude plugin install claude-plugin-output-style-caveman@jehoshua02/claude-marketplace

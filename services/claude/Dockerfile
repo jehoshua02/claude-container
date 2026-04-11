@@ -1,4 +1,4 @@
-FROM node:22-slim
+FROM debian:bookworm-slim
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -9,11 +9,13 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Claude Code globally
-RUN npm install -g @anthropic-ai/claude-code
-
 # Create a non-root user
 RUN useradd -m -s /bin/bash claude
+
+# Install Claude Code via native installer (as claude user so it lands on their PATH)
+USER claude
+RUN curl -fsSL https://claude.ai/install.sh | bash
+USER root
 
 # Set up workspace directory
 RUN mkdir -p /workspace && chown claude:claude /workspace
@@ -25,6 +27,7 @@ COPY --chown=claude:claude settings.default.json /home/claude/settings.default.j
 COPY --chown=claude:claude plugins.sh /home/claude/plugins.sh
 RUN chmod +x /home/claude/plugins.sh
 
+ENV PATH="/home/claude/.local/bin:${PATH}"
 USER claude
 WORKDIR /workspace
 

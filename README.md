@@ -80,7 +80,8 @@ docker compose run --rm claude -p "Summarize the project"
 | Path on your machine | Path in container | Purpose |
 |---|---|---|
 | `./volumes/workspace/` | `/workspace` | Files for Claude to work with |
-| `./volumes/claude-config/` | `/home/claude/.claude` | Persisted Claude settings & history |
+| `./volumes/claude-data/` | `/home/claude/.claude` | Persisted Claude settings & history |
+| `./volumes/claude-settings/` | `/home/claude/.config/claude` | Persisted theme & preferences |
 | `./secrets/ssh_key` | `/run/secrets/ssh_private_key` | SSH key for private repos (optional) |
 
 All persistent data lives under `./volumes/`. Secrets live under `./secrets/`. Both are gitignored.
@@ -135,7 +136,7 @@ git config --local commit.gpgsign false
 
 ## Plugins
 
-Plugins are installed automatically on first container startup via `services/claude/plugins.sh`. A marker file (`.plugins-installed`) in `./volumes/claude-config/` prevents re-running on subsequent starts.
+Plugins are installed automatically on first container startup via `services/claude/plugins.sh`. A marker file (`.plugins-installed`) in `./volumes/claude-data/` prevents re-running on subsequent starts.
 
 ### Pre-installed plugins
 
@@ -156,7 +157,7 @@ claude plugin disable <name>@<marketplace>
 claude plugin uninstall <name>@<marketplace>
 ```
 
-Changes are persisted in `./volumes/claude-config/` and survive container restarts.
+Changes are persisted in `./volumes/claude-data/` and survive container restarts.
 
 ## Customization
 
@@ -193,7 +194,7 @@ user: "1000:1000"
 - **Windows path quirks** — On Docker Desktop for Windows, volume mounts go through WSL2. File writes are slower than native Linux, and file permission bits behave differently. For best performance, keep your `volumes/` inside the WSL2 filesystem (`\\wsl$\...`) rather than on a Windows drive.
 - **No persistent shell state** — Each `run.sh` invocation starts a fresh container. Environment variables, installed packages, or shell history from a previous session are gone (unless you add more volume mounts).
 - **API costs** — Every session uses the Anthropic API. Long agentic runs with many tool calls can consume significant tokens. Set a budget in the Anthropic Console if needed.
-- **Image size** — The image pulls Node 22 + all of Claude Code's npm dependencies. Expect ~1 GB after the first build.
+- **Image size** — The image pulls Debian slim + Claude Code's native binary. Expect a few hundred MB after the first build.
 
 ## Security notes
 

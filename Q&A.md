@@ -2,9 +2,9 @@
 
 ---
 
-## What is the reasoning for using a node image? Why not alpine?
+## What is the reasoning for using debian:bookworm-slim? Why not alpine?
 
-Claude Code (`@anthropic-ai/claude-code`) is an npm package that requires Node.js. `node:22-slim` is Debian-based and includes glibc, which many npm native modules depend on. Alpine uses musl libc instead, and some npm packages with native bindings (compiled C/C++ addons) fail to build or run on musl without patching. Using `node:22-slim` avoids that entire class of compatibility issues while still being relatively lean (~200MB base).
+Claude Code's native installer requires glibc, which Debian provides. Alpine uses musl libc instead, and the native binary may not work without extra dependencies (`libgcc`, `libstdc++`, `ripgrep`). Using `debian:bookworm-slim` avoids compatibility issues while staying lean (~75MB base).
 
 ---
 
@@ -16,13 +16,13 @@ Three reasons. First, separation of concerns — the Dockerfile defines the buil
 
 ## Any reason we can't group volume mounts into a common directory?
 
-No technical reason, and we've now done it. Both `workspace` and `claude-config` are bind-mounted under `./volumes/` so all persistent data lives in one visible place on the host.
+No technical reason, and we've now done it. Both `workspace` and `claude-data` are bind-mounted under `./volumes/` so all persistent data lives in one visible place on the host.
 
 ---
 
 ## What does "named Docker volume (managed by Docker, not a host path)" mean?
 
-A named volume (e.g. `claude-config:` in the `volumes:` section of docker-compose.yml) is a storage area that Docker creates and manages internally — typically under `/var/lib/docker/volumes/` on Linux or inside the Docker Desktop VM on Windows/Mac. Unlike a bind mount (e.g. `./volumes/workspace:/workspace`) which maps directly to a visible folder on your host filesystem, a named volume is opaque: you can't browse it in your file explorer, and its exact location on disk is an implementation detail you're not meant to depend on. The trade-off is that named volumes are portable and Docker handles permissions, but bind mounts give you direct visibility and control over the files on your host. This project now uses bind mounts exclusively — both `./volumes/workspace/` and `./volumes/claude-config/` are plain directories on your host.
+A named volume (e.g. `claude-data:` in the `volumes:` section of docker-compose.yml) is a storage area that Docker creates and manages internally — typically under `/var/lib/docker/volumes/` on Linux or inside the Docker Desktop VM on Windows/Mac. Unlike a bind mount (e.g. `./volumes/workspace:/workspace`) which maps directly to a visible folder on your host filesystem, a named volume is opaque: you can't browse it in your file explorer, and its exact location on disk is an implementation detail you're not meant to depend on. The trade-off is that named volumes are portable and Docker handles permissions, but bind mounts give you direct visibility and control over the files on your host. This project now uses bind mounts exclusively — both `./volumes/workspace/` and `./volumes/claude-data/` are plain directories on your host.
 
 ---
 
@@ -80,7 +80,7 @@ Each `run.sh` invocation creates a fresh Docker container that exits when the se
 2. **Environment variables** — If Claude runs `export DEBUG=true`, that variable doesn't carry over to the next container.
 3. **Files outside the workspace** — If Claude creates `node_modules/` or build artifacts somewhere other than `/workspace/`, they vanish when the container exits.
 
-What **does** persist across sessions: files in `./volumes/workspace/` (mounted at `/workspace`) and Claude's config/history in `./volumes/claude-config/` (mounted at `~/.claude`). Everything else starts clean.
+What **does** persist across sessions: files in `./volumes/workspace/` (mounted at `/workspace`) and Claude's config/history in `./volumes/claude-data/` (mounted at `~/.claude`). Everything else starts clean.
 
 ---
 
