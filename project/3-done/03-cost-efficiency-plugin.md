@@ -36,9 +36,20 @@ Options evaluated:
 3. **Entrypoint aggregation** — append plugin CLAUDE.md files to ~/.claude/CLAUDE.md at container startup. Works but not plugin-native.
 4. **`~/.claude/rules/`** — user-level rules, automatically loaded into context every session. Additive. No system prompt replacement. **Winner.**
 
-### Decision: Use `~/.claude/rules/`
+### Decision: SessionStart hook + `~/.claude/rules/`
 
-Plugin install writes `~/.claude/rules/frugal.md`. Claude picks it up automatically. No entrypoint hacks, no agent replacement. Plugin user installs and it just works.
+Plugin's `hooks/setup.sh` copies `rules/frugal.md` to `~/.claude/rules/frugal.md` on every session start. Claude auto-loads user-level rules from `~/.claude/rules/`. No agent replacement. Plugin-native.
+
+Note: `rules/` directory in plugin cache is NOT auto-discovered by Claude Code (unlike `commands/` or `output-styles/`). The SessionStart hook bridges this gap.
+
+Container entrypoint also needed `chmod +x` on plugin hook scripts — read-only filesystem strips execute permission.
 
 ## Verification
 
+Container Claude asked "What rules do you follow to manage context/tokens efficiently?" — response cited frugal rules directly:
+- "Terse only. No filler, no narration."
+- "Haiku: quick answers, simple tasks / Sonnet: code, data analysis / Opus: complex architecture"
+- "Document key decisions in files, not conversation"
+- "/compact to short file list, re-read on demand"
+
+All rules loaded and followed without explicitly referencing the plugin by name.
