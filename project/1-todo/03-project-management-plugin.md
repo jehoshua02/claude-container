@@ -8,14 +8,12 @@ Extract the project management workflow rules from `project/README.md` into a re
 - Folder structure (`0-inbox/`, `1-todo/`, `2-doing/`, `3-done/`) remains project-specific — each repo sets up its own.
 - Rules come from the plugin so they stay consistent across projects without duplication.
 
-## Priority: 05
+## Priority: 03
 
-| Factor | Score | Reasoning |
-|---|---|---|
-| Value | 2 | Reusability and consistency across projects |
-| Momentum | 1 | Not started |
-| Effort | 2 | New plugin repo, extract rules, test across projects |
-| Risk | 2 | Plugin API constraints, need to understand how plugins inject context |
+- Value: 5 — useful across all projects, personal organization, not just claude-container
+- Momentum: 3 — frugal plugin proved the pattern, project rules already written and in use
+- Effort: 2 — pattern established (SessionStart hook → ~/.claude/rules/), just extract and package
+- Risk: 1 — same proven mechanism as frugal
 
 ## Notes
 
