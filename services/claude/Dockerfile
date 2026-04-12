@@ -23,6 +23,9 @@ RUN mkdir -p /workspace && chown claude:claude /workspace
 # Copy default Claude settings (applied on first run if none exist)
 COPY --chown=claude:claude settings.default.json /home/claude/settings.default.json
 
+# Copy CLAUDE.md (applied on first run if none exist in ~/.claude/)
+COPY --chown=claude:claude CLAUDE.md /home/claude/CLAUDE.default.md
+
 # Copy plugin install script (runs at first startup, not build time)
 COPY --chown=claude:claude plugins.sh /home/claude/plugins.sh
 RUN chmod +x /home/claude/plugins.sh

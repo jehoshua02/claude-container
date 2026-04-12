@@ -25,12 +25,13 @@ if [ -n "$GIT_USER_NAME" ] && [ -n "$GIT_USER_EMAIL" ]; then
   git config --global user.email "$GIT_USER_EMAIL"
 fi
 
-# Apply default Claude settings on first run (if the config volume is empty)
+# Apply defaults on first run (if the config volume is empty)
+mkdir -p ~/.claude
 if [ ! -f ~/.claude/settings.json ]; then
-  mkdir -p ~/.claude
   cp ~/settings.default.json ~/.claude/settings.json
   echo "Applied default Claude settings from settings.default.json"
 fi
+cp ~/CLAUDE.default.md ~/.claude/CLAUDE.md
 
 # Install plugins on first run (marker file prevents re-running)
 if [ -f ~/plugins.sh ] && [ ! -f ~/.claude/.plugins-installed ]; then
