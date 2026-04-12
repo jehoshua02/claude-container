@@ -14,18 +14,6 @@ Three reasons. First, separation of concerns — the Dockerfile defines the buil
 
 ---
 
-## Any reason we can't group volume mounts into a common directory?
-
-No technical reason, and we've now done it. Both `workspace` and `claude-data` are bind-mounted under `./volumes/` so all persistent data lives in one visible place on the host.
-
----
-
-## What does "named Docker volume (managed by Docker, not a host path)" mean?
-
-A named volume (e.g. `claude-data:` in the `volumes:` section of docker-compose.yml) is a storage area that Docker creates and manages internally — typically under `/var/lib/docker/volumes/` on Linux or inside the Docker Desktop VM on Windows/Mac. Unlike a bind mount (e.g. `./volumes/workspace:/workspace`) which maps directly to a visible folder on your host filesystem, a named volume is opaque: you can't browse it in your file explorer, and its exact location on disk is an implementation detail you're not meant to depend on. The trade-off is that named volumes are portable and Docker handles permissions, but bind mounts give you direct visibility and control over the files on your host. This project now uses bind mounts exclusively — both `./volumes/workspace/` and `./volumes/claude-data/` are plain directories on your host.
-
----
-
 ## What user should I use for git? Should I create a new user? Or use an existing user?
 
 Two good options:

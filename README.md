@@ -11,7 +11,7 @@ Running Claude in a container gives you:
 - **Isolation** — Claude operates inside a sandbox with access only to the files you explicitly mount. Your home directory, credentials, and system files stay out of reach.
 - **Reproducibility** — The environment is defined in code. Anyone on your team gets the exact same setup.
 - **Safety for experiments** — Let Claude freely explore, refactor, or run commands without worrying about unintended side effects on your machine.
-- **Clean slate** — No conflicts with your local Node version, global npm packages, or existing Claude config.
+- **Clean slate** — No conflicts with your local tools or existing Claude config.
 - **CI/CD ready** — Easy to drop into automated pipelines for code review, generation, or analysis tasks.
 
 ## Requirements
@@ -82,8 +82,7 @@ docker compose run --rm claude -p "Summarize the project"
 |---|---|---|
 | `./volumes/workspace/` | `/workspace` | Files for Claude to work with |
 | `./volumes/claude-data/` | `/home/claude/.claude` | Persisted history, sessions, plugins |
-| `./volumes/claude-settings/` | `/home/claude/.config/claude` | Persisted theme & preferences |
-| `./volumes/claude.json` | `/home/claude/.claude.json` | Legacy config file |
+| `./volumes/claude.json` | `/home/claude/.claude.json` | Claude Code internal state (OAuth, feature flags, sessions) |
 | `./secrets/ssh_key` | `/run/secrets/ssh_private_key` | SSH key for private repos (optional) |
 
 All persistent data lives under `./volumes/`. Secrets live under `./secrets/`. Both are gitignored.
@@ -101,7 +100,7 @@ GIT_USER_NAME=Your Name
 GIT_USER_EMAIL=you@example.com
 ```
 
-These are passed as environment variables and the entrypoint runs `git config --global` to set them, so no `.gitconfig` is needed in the image.
+These are passed as environment variables and configured by the entrypoint at startup. Git config is written to `/tmp/.gitconfig` since the container filesystem is read-only.
 
 ### Private repos — SSH access
 
@@ -159,7 +158,7 @@ Changes are persisted in `./volumes/claude-data/` and survive container restarts
 
 ## Customization
 
-The container runs as a non-root `claude` user by default. To customize the setup (different workspace path, extra tools, UID mapping), submit changes via PR.
+Place instruction files in `./volumes/workspace/.instructions/` to give Claude context about your use case — purpose, workflows, task instructions, etc. Claude reads this directory at the start of every session.
 
 ## Limitations
 
@@ -169,7 +168,7 @@ The container runs as a non-root `claude` user by default. To customize the setu
 - **No host tool access** — MCP servers you have configured locally (e.g. scheduled tasks, local integrations) are not available inside the container unless you explicitly configure them in the container's Claude settings.
 - **TTY required for interactive mode** — The container needs an attached terminal (`stdin_open: true`, `tty: true`). This means it won't work well with plain `docker run -d` (detached). For non-interactive use, always pass `-p "..."` with a prompt.
 - **Windows path quirks** — On Docker Desktop for Windows, volume mounts go through WSL2. File writes are slower than native Linux, and file permission bits behave differently. For best performance, keep your `volumes/` inside the WSL2 filesystem (`\\wsl$\...`) rather than on a Windows drive.
-- **No persistent shell state** — Each `run.sh` invocation starts a fresh container. Environment variables, installed packages, or shell history from a previous session are gone (unless you add more volume mounts).
+- **No persistent shell state** — Each `run.sh` invocation starts a fresh container. Environment variables, installed packages, or shell history from a previous session are gone.
 - **API costs** — Every session uses the Anthropic API. Long agentic runs with many tool calls can consume significant tokens. Set a budget in the Anthropic Console if needed.
 - **Image size** — The image pulls Debian slim + Claude Code's native binary. Expect a few hundred MB after the first build.
 
@@ -177,5 +176,7 @@ The container runs as a non-root `claude` user by default. To customize the setu
 
 - Your API key is passed via environment variable and never baked into the image.
 - The `.gitignore` excludes `.env` and `volumes/` contents so neither is accidentally committed.
-- The container runs as a non-root user.
-- Network access inside the container is unrestricted by default — Claude can make outbound requests (e.g. to fetch docs or call APIs). Add `network_mode: none` to `docker-compose.yml` if you want full network isolation.
+- The container runs as a non-root user with all Linux capabilities dropped (`cap_drop: ALL`).
+- Privilege escalation is blocked (`no-new-privileges`).
+- The root filesystem is read-only. Only mounted volumes and tmpfs (`/tmp`, `~/.ssh`) are writable.
+- Network access inside the container is unrestricted by default — Claude can make outbound requests (e.g. to fetch docs or call APIs).
