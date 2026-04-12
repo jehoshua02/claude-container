@@ -140,9 +140,9 @@ Plugins are installed automatically on first container startup via `services/cla
 
 The following plugins from the `jehoshua02/claude-marketplace` marketplace are installed on first run:
 
-- **stout** — commands by jehoshua02
-- **trail** — working log for projects and investigations
-- **claude-plugin-output-style-caveman** — caveman speak output style
+- [**stout**](https://github.com/jehoshua02/claude-plugin-stout) — TDD red-green-refactor loop for Claude Code
+- [**trail**](https://github.com/jehoshua02/claude-plugin-trail) — working log for projects, bug investigations, and ephemeral work. Organized by topic, ordered by sequence, committed to git.
+- [**claude-plugin-output-style-caveman**](https://github.com/jehoshua02/claude-plugin-output-style-caveman) — makes Claude respond in caveman speak. Short. Blunt. No filler.
 
 ### Managing plugins
 
