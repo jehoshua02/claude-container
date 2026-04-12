@@ -54,6 +54,20 @@ Drops you into a live Claude Code session. Claude can read and modify anything i
 
 Runs Claude with a single prompt and exits when done. Useful for scripting.
 
+### Remote control
+
+```bash
+./run.sh remote-control --name "Claude Container"
+```
+
+Starts a remote control server so you can steer the container session from your phone or any browser via [claude.ai/code](https://claude.ai/code). Requires OAuth login (not API key) — run `claude auth login` inside the container if credentials are expired.
+
+To refresh expired OAuth tokens, copy your host credentials into the container volume:
+
+```bash
+cp ~/.claude/.credentials.json ./volumes/claude-data/.credentials.json
+```
+
 ### Pass any Claude Code flags
 
 ```bash

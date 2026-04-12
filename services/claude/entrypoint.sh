@@ -41,4 +41,10 @@ if [ -f ~/plugins.sh ] && [ ! -f ~/.claude/.plugins-installed ]; then
   find ~/.claude/plugins/cache -name "*.sh" -exec chmod +x {} \;
 fi
 
+# Remote-control requires OAuth, not API key. Unset API key and auto-confirm.
+if [ "${1:-}" = "remote-control" ]; then
+  unset ANTHROPIC_API_KEY
+  exec sh -c 'echo y | claude "$@"' -- "$@"
+fi
+
 exec claude "$@"
