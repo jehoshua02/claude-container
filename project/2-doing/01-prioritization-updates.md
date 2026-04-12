@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Redesign the priority formula (1-10 scale, eliminate inversion), update README, and rescore all existing tasks.
+Redesign the priority formula (1-10 scale, eliminate inversion) and update README.
 
 ## Priority: 01
 
@@ -17,13 +17,14 @@ Redesign the priority formula (1-10 scale, eliminate inversion), update README, 
 
 Combined from:
 - prioritization-simplification: eliminate the inversion step, make mental math easier
-- epic-handling subtasks: rescale from 1-3 to 1-5 (already done in README), rescore existing 1-todo tasks
-- vertical-slicing: discuss how vertical slicing applies to task prioritization, getting value sooner
+- epic-handling subtasks: rescale from 1-3 to 1-5 (already done in README)
+
+Split out to inbox:
+- vertical-slicing: discuss how vertical slicing applies to task prioritization
+- rescore-tasks: rescore all 1-todo/ tasks (after vertical slicing)
 
 Scope:
-1. Discuss vertical slicing approach and how it applies to prioritization
-2. Rescale factors from 1-5 to 1-10
-3. Design a new formula (eliminate inversion/offset, make mental math intuitive)
-4. Display factor values as X/Y (e.g. 3/10) so scale is known at a glance
-5. Update README with new formula, scale, and display format
-6. Rescore all existing 1-todo/ tasks
+1. Rescale factors from 1-5 to 1-10
+2. Design a new formula (eliminate inversion/offset, make mental math intuitive)
+3. Display factor values as X/Y (e.g. 3/10) so scale is known at a glance
+4. Update README with new formula, scale, and display format
