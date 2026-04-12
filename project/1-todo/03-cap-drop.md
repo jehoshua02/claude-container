@@ -10,3 +10,12 @@ Add `cap_drop: [ALL]` to the Claude service in docker-compose.yml. Claude Code d
 | Momentum | 1 | Not started |
 | Effort | 1 | One line in docker-compose.yml |
 | Risk | 1 | Standard hardening, unlikely to break anything |
+
+## Verification
+
+```
+$ docker compose run --rm --entrypoint bash claude -c "chown root /tmp"
+chown: changing ownership of '/tmp': Operation not permitted
+```
+
+CAP_CHOWN is dropped. Operation denied as expected.

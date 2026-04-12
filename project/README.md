@@ -15,37 +15,57 @@
 | **Effort**   | Time and complexity to implement.                                         |
 | **Risk**     | Potential to break things, irreversibility, locking in bad decisions.     |
 
+## Folders
+
+- `0-inbox/` — quick capture. Just enough to not forget.
+- `1-todo/` — prioritized and ready to pick up
+- `2-doing/` — in progress
+- `3-done/` — completed
+
+Files in `1-todo/` are named with zero-padded priority score prefix: `02-dockerignore.md`, `04-comments.md`, etc.
+
 ## Workflow
 
-- `1-backlog/` — unrefined. Needs discussion, decisions, or open questions answered before work can begin.
-- `2-todo/` — refined and ready to pick up
-- `3-doing/` — in progress
-- `4-done/` — completed
+### 1. Capture
 
-Files are named with zero-padded priority score prefix: `02-dockerignore.md`, `04-comments.md`, etc.
+- New idea or action item → create a file in `0-inbox/`. At minimum a title and one sentence. Include whatever relevant detail is available at time of capture.
 
-### Transitions
+### 2. Refine
+
+- Before selecting the next task, refine inbox items one by one.
+- Q&A loop until Value, Effort, and Risk can each be scored with reasoning.
+- Document key details and decisions from the Q&A loop in the task file.
+- Suggest a priority score. User confirms.
+- Move to `1-todo/` with the priority score prefix.
+
+### 3. Pick up
+
+- Check `2-doing/` first. Finish in-progress items before starting new ones.
+- Refine all `0-inbox/` items before picking up new work.
+- Pick from the top of `ls` in `1-todo/` (lowest score = highest priority). Break ties with gut.
+- Move to `2-doing/`.
+
+### 4. Complete
+
+1. Prove it works, no errors. If claude can gather proof, claude does and documents it. Otherwise, ask user to gather proof and claude documents. If it cannot be immediately proven, create a monitoring plan and schedule a follow-up.
+2. Document proof in the task file.
+3. User reviews everything before commit: version controlled changes, task documentation, the diff.
+4. Move task to `3-done/`.
+5. Commit.
+6. Go to step 3 (Pick up).
+
+### Other transitions
 
 | From        | To          | When                                                              |
 |-------------|-------------|-------------------------------------------------------------------|
-| —           | 1-backlog/  | New idea or action item identified. No priority score needed.     |
-| 1-backlog/  | 2-todo/     | Scope is clear, questions answered, risks addressed, scored.      |
-| 1-backlog/  | dropped     | Item is no longer relevant. Delete the file.                      |
-| 2-todo/     | 3-doing/    | Starting work.                                                    |
-| 2-todo/     | 1-backlog/  | New questions or unknowns surfaced. Needs more refinement.        |
-| 3-doing/    | 4-done/     | Work is complete and user has reviewed.                            |
-| 3-doing/    | 2-todo/     | Blocked or paused. Not actively being worked on.                  |
-| 3-doing/    | 1-backlog/  | Scope changed significantly. Needs re-refinement.                 |
+| 0-inbox/    | 3-done/     | No longer relevant. Note why in the file, move to done.           |
+| 1-todo/     | 3-done/     | No longer relevant. Note why in the file, move to done.           |
+| 2-doing/    | 1-todo/     | Blocked, paused, or scope changed significantly.                  |
 
-### Rules
+## Rules
 
-- When picking up work, start from the top of `ls` (lowest score = highest priority), break ties with gut.
-- Check `3-doing/` first. Finish in-progress items before starting new ones.
-- Do not work on items in `1-backlog/`. Refine first, then move to `2-todo/`.
-- Do not work on items without a task file.
-- Action items go in `1-backlog/` or `2-todo/`. Not in Q&A, README, or other docs.
-- Only move task files using transitions defined in the table above. No skipping stages.
+- All work must be tied to a task file. Key details and decisions documented in the task file.
+- New action items while doing a task → quick capture in `0-inbox/`, keep doing current task.
+- New action items while not doing a task → refine and put in `1-todo/`.
+- Only move task files using transitions defined above. No skipping stages.
 - Priority scores must be confirmed with the user. Suggest scores, but do not apply without user feedback.
-- User must review work before a task moves to done.
-- Move task to done before committing.
-- Commit before starting another task.
