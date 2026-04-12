@@ -22,5 +22,6 @@ Combined from:
 Scope:
 1. Rescale factors from 1-5 to 1-10
 2. Design a new formula (eliminate inversion/offset, make mental math intuitive)
-3. Update README with new formula and scale
-4. Rescore all existing 1-todo/ tasks
+3. Display factor values as X/Y (e.g. 3/10) so scale is known at a glance
+4. Update README with new formula, scale, and display format
+5. Rescore all existing 1-todo/ tasks
