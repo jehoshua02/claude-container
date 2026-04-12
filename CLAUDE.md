@@ -1,3 +1,4 @@
 - Read `project/README.md` for task management workflow and prioritization rules.
 - Do not use Claude global memory. All project knowledge lives in this repo.
 - When the next step is obvious from the workflow rules, just do it. Don't ask.
+- Push to remote after every commit.
