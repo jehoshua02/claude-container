@@ -10,3 +10,4 @@ claude plugin marketplace add jehoshua02/claude-marketplace
 claude plugin install stout@jehoshua02
 claude plugin install trail@jehoshua02
 claude plugin install caveman@jehoshua02
+claude plugin install frugal@jehoshua02

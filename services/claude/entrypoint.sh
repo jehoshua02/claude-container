@@ -37,6 +37,8 @@ cp ~/CLAUDE.default.md ~/.claude/CLAUDE.md
 if [ -f ~/plugins.sh ] && [ ! -f ~/.claude/.plugins-installed ]; then
   echo "Installing plugins..."
   ~/plugins.sh && mkdir -p ~/.claude && touch ~/.claude/.plugins-installed
+  # Fix execute permissions on plugin hook scripts (lost on read-only filesystem)
+  find ~/.claude/plugins/cache -name "*.sh" -exec chmod +x {} \;
 fi
 
 exec claude "$@"
