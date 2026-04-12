@@ -2,11 +2,11 @@
 
 ## Prioritization
 
-**Formula:** `Priority = Effort + Risk - Value - Momentum + 4`
+**Formula:** `Priority = Effort + Risk - Value - Momentum + 8`
 
-**Scale:** Each factor scored 1-3 (low, medium, high).
+**Scale:** Each factor scored 1-5.
 
-**Range:** 0 to 8. Lower is better (golf scoring). Ties broken by gut.
+**Range:** 0 to 16. Lower is better (golf scoring). Ties broken by gut.
 
 | Factor       | Description                                                               |
 |--------------|---------------------------------------------------------------------------|
