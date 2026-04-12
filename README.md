@@ -142,7 +142,7 @@ The following plugins from the `jehoshua02/claude-marketplace` marketplace are i
 
 - [**stout**](https://github.com/jehoshua02/claude-plugin-stout) — TDD red-green-refactor loop for Claude Code
 - [**trail**](https://github.com/jehoshua02/claude-plugin-trail) — working log for projects, bug investigations, and ephemeral work. Organized by topic, ordered by sequence, committed to git.
-- [**claude-plugin-output-style-caveman**](https://github.com/jehoshua02/claude-plugin-output-style-caveman) — makes Claude respond in caveman speak. Short. Blunt. No filler.
+- [**caveman**](https://github.com/jehoshua02/claude-plugin-caveman) — makes Claude respond in caveman speak. Short. Blunt. No filler.
 
 ### Managing plugins
 

@@ -4,6 +4,10 @@ Add a proxy container (goproxy or custom Node proxy) under `services/proxy/`. Us
 
 Note: `network_mode: none` is a kill switch, not egress control — it blocks all network including the Anthropic API, so Claude won't function. Use an internal Docker network + proxy instead.
 
+## Reference
+
+Prior art / POC: `C:\Users\jstou\Documents\Dev\jehoshua02\egress-control-poc`
+
 ## Priority: 05
 
 | Factor | Score | Reasoning |
