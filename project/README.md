@@ -64,8 +64,42 @@ Files in `1-todo/` are named with zero-padded priority score prefix: `02-dockeri
 
 ## Rules
 
-- All work must be tied to a task file. Key details and decisions documented in the task file.
+- All work must be tied to a task file. Key details and decisions documented in the task file as they come up.
+- Document new information and decisions in the task file during work, not just during refinement.
 - New action items while doing a task → quick capture in `0-inbox/`, keep doing current task.
 - New action items while not doing a task → refine and put in `1-todo/`.
 - Only move task files using transitions defined above. No skipping stages.
 - Priority scores must be confirmed with the user. Suggest scores, but do not apply without user feedback.
+
+## Task file template
+
+```markdown
+# Title
+
+## Abstract
+
+One-liner description.
+
+## Priority: XX
+
+- Value: X — ...
+- Momentum: X — ...
+- Effort: X — ...
+- Risk: X — ...
+
+## Timeline
+
+- Captured: YYYY-MM-DD
+- Refined: YYYY-MM-DD
+- Started: YYYY-MM-DD
+- Verified: YYYY-MM-DD
+- Done: YYYY-MM-DD
+
+## Details
+
+Key details, decisions, and new information. Grows over time.
+
+## Verification
+
+Proof that the task works. Commands run, output observed.
+```
