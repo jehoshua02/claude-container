@@ -37,6 +37,7 @@ Files in `1-todo/` are named with zero-padded priority score prefix: `02-dockeri
 - Document key details and decisions from the Q&A loop in the task file.
 - Suggest a priority score. User confirms.
 - Move to `1-todo/` with the priority score prefix.
+- Commit.
 
 ### 3. Pick up
 
