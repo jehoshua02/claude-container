@@ -40,5 +40,5 @@ services:
     # - /home/claude/.ssh: entrypoint writes SSH key and known_hosts here at startup
     # https://docs.docker.com/reference/compose-file/services/#tmpfs
     tmpfs:
-      - /tmp
-      - /home/claude/.ssh
+      - /tmp:uid=1000,gid=1000
+      - /home/claude/.ssh:uid=1000,gid=1000
