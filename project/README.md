@@ -2,18 +2,27 @@
 
 ## Prioritization
 
-**Formula:** `Priority = Effort + Risk - Value - Momentum + 8`
+**Formula:**
 
-**Scale:** Each factor scored 1-5.
+```
+Score = ((Wv*(10-V) + Wm*(10-M) + We*(E-1) + Wr*(R-1)) / (9*(Wv + Wm + We + Wr))) * S + 1
+```
 
-**Range:** 0 to 16. Lower is better (golf scoring). Ties broken by gut.
+| Constant | Definition                                                                |
+|----------|---------------------------------------------------------------------------|
+| **V**    | Value (1-10). Impact, urgency, unblocking other work, validating assumptions. |
+| **M**    | Momentum (1-10). Work already in progress. Finishing > starting.          |
+| **E**    | Effort (1-10). Time and complexity to implement.                          |
+| **R**    | Risk (1-10). Potential to break things, irreversibility, locking in bad decisions. |
+| **Wv**   | Weight for Value. Max points Value can contribute.                        |
+| **Wm**   | Weight for Momentum. Max points Momentum can contribute.                  |
+| **We**   | Weight for Effort. Max points Effort can contribute.                      |
+| **Wr**   | Weight for Risk. Max points Risk can contribute.                          |
+| **S**    | Scale. Controls the score range (1 to S+1).                              |
 
-| Factor       | Description                                                               |
-|--------------|---------------------------------------------------------------------------|
-| **Value**    | Impact, security, unblocking other work, urgency, validating assumptions. |
-| **Momentum** | Work already in progress. Finishing > starting.                           |
-| **Effort**   | Time and complexity to implement.                                         |
-| **Risk**     | Potential to break things, irreversibility, locking in bad decisions.     |
+**Defaults:** Wv=10, Wm=10, We=10, Wr=10, S=100.
+
+**Range:** 1 to 101. Lower is better. Ties broken by gut.
 
 ## Folders
 
@@ -22,7 +31,7 @@
 - `2-doing/` — in progress
 - `3-done/` — completed
 
-Files in `1-todo/` are named with zero-padded priority score prefix: `02-dockerignore.md`, `04-comments.md`, etc.
+Files in `1-todo/` are named with zero-padded priority score prefix: `012-dockerignore.md`, `045-comments.md`, etc.
 
 ## Workflow
 
@@ -83,10 +92,10 @@ One-liner description.
 
 ## Priority: XX
 
-- Value: X — ...
-- Momentum: X — ...
-- Effort: X — ...
-- Risk: X — ...
+- Value: X/10 — ...
+- Momentum: X/10 — ...
+- Effort: X/10 — ...
+- Risk: X/10 — ...
 
 ## Timeline
 
