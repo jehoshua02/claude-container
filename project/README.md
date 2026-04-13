@@ -11,7 +11,7 @@ Score = (Wv*(10-V)/9 + Wm*(10-M)/9 + We*(E-1)/9 + Wr*(R-1)/9) / (Wv + Wm + We + 
 | Constant | Definition                                                                |
 |----------|---------------------------------------------------------------------------|
 | **V**    | Value (1-10). Impact, urgency, unblocking other work, validating assumptions. |
-| **M**    | Momentum (1-10). Work already in progress. Finishing > starting.          |
+| **M**    | Momentum (1-10). Work already in progress. Finishing > starting. Tasks in an active slice (epic with completed tasks) score higher. |
 | **E**    | Effort (1-10). Time and complexity to implement.                          |
 | **R**    | Risk (1-10). Potential to break things, irreversibility, locking in bad decisions. |
 | **Wv**   | Weight for Value. Max points Value can contribute.                        |
