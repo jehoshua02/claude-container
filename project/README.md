@@ -5,7 +5,7 @@
 **Formula:**
 
 ```
-Score = ((Wv*(10-V) + Wm*(10-M) + We*(E-1) + Wr*(R-1)) / (9*(Wv + Wm + We + Wr))) * S + 1
+Score = (Wv*(10-V)/9 + Wm*(10-M)/9 + We*(E-1)/9 + Wr*(R-1)/9) / (Wv + Wm + We + Wr) * S + 1
 ```
 
 | Constant | Definition                                                                |
