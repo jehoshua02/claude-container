@@ -35,7 +35,9 @@ Scope:
 ### Decisions
 
 - Factors scored 1-10, intuitive direction (Value 10 = high value, Effort 10 = high effort)
-- Formula normalizes each factor to 0-1, applies weight, sums, converts to percentage, scales
+- Internally: each factor normalized to 0-1 via (factor-1)/9 or (10-factor)/9
+- V and M inverted (high input = low cost), E and R direct (high input = high cost)
+- Per-factor normalization kept visible in formula for readability (not factored out)
 - Weights control relative importance; defaults all equal at 10
 - Scale=100 gives range 1-101
 - Priority 1 = best possible score
@@ -44,3 +46,4 @@ Scope:
 ## Verification
 
 - README updated with new formula, constants table, defaults, range, display format, file naming convention
+- Formula iterated through multiple rounds to balance simplicity, readability, and correctness
