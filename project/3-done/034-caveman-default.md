@@ -6,6 +6,10 @@ The setting key is `outputStyle` with value `claude-plugin-output-style-caveman:
 
 Also related: investigate whether `/workspace/.claude/` should be gitignored or otherwise managed.
 
+## No longer relevant
+
+Frugal plugin is installed and covers the terse output requirement. Pre-configuring caveman style adds no meaningful value on top of that.
+
 ## Priority: 034
 
 - Value: 5/10 — Nice UX — users get the intended output style immediately
