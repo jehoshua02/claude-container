@@ -15,6 +15,9 @@ Remove redundant review/approval steps from the task completion workflow — com
 
 - Captured: 2026-04-12
 - Refined: 2026-04-12
+- Started: 2026-04-13
+- Verified: 2026-04-13
+- Done: 2026-04-13
 
 ## Details
 

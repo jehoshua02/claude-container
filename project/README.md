@@ -59,10 +59,10 @@ Files in `1-todo/` are named with zero-padded priority score prefix: `012-docker
 ### 4. Complete
 
 1. Prove it works, no errors. If claude can gather proof, claude does. Otherwise, ask user to gather proof. If it cannot be immediately proven, create a monitoring plan and schedule a follow-up.
-2. Update task file: details, decisions, and verification — all before requesting review.
-3. Request user review. User reviews everything: task file, version controlled changes, the diff.
-4. Move task to `3-done/`.
-5. Commit.
+2. Update task file: details, decisions, and verification.
+3. Move task to `3-done/`.
+4. Commit. Commit approval is the review gate — present work clearly at this point.
+5. Verify working tree is clean.
 6. Go to step 3 (Pick up).
 
 ### Other transitions
