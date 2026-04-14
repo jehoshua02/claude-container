@@ -38,6 +38,7 @@ Files in `1-todo/` are named with zero-padded priority score prefix: `012-docker
 ### 1. Capture
 
 - New idea or action item → create a file in `0-inbox/`. At minimum a title and one sentence. Include whatever relevant detail is available at time of capture.
+- Commit after capturing.
 
 ### 2. Refine
 

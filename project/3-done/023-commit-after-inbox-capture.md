@@ -15,6 +15,11 @@ Add a project management rule: commit after each inbox item is captured or refin
 
 - Captured: 2026-04-12
 - Refined: 2026-04-12
+- Completed: 2026-04-13
+
+## Verification
+
+Added "Commit after capturing." to Capture section in `project/README.md`. Refine section already ends with "Commit."
 
 ## Details
 
