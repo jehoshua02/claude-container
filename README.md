@@ -1,6 +1,15 @@
 # Claude Code Container
 
-A Docker setup for running [Claude Code](https://claude.ai/code) in an isolated container.
+Give AI a longer leash by containing it. Control what it has access to, mitigate risk, enable autonomy.
+
+A secure, self-contained Docker environment where Claude agents can work autonomously on user-defined goals — with the right tools, guardrails, and infrastructure to do so reliably.
+
+**Core pillars:**
+
+1. **Containment** — sandboxed execution, resource limits, egress control
+2. **Tooling** — git, plugins, MCP servers, browser access
+3. **Autonomy infrastructure** — task queue, health checks, monitoring, always-on capability
+4. **Extensibility** — user brings their own workflows, goals, and agent configurations
 
 ## Why run Claude Code in a container?
 
