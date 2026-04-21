@@ -42,3 +42,8 @@ services:
     tmpfs:
       - /tmp:uid=1000,gid=1000
       - /home/claude/.ssh:uid=1000,gid=1000
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2"
