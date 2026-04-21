@@ -4,9 +4,9 @@
 
 Epics are big rocks. Split into smaller rocks until they fit in inbox, then refine as usual. Need to define the process and document in project/README.md.
 
-## Priority: 032
+## Priority: 070
 
-- Value: 9/10 — useful structure for larger work, but not blocking anything right now
+- Value: 4/10 — useful structure but not necessary for claude-container development
 - Momentum: 5/10 — partially broken down, two subtasks already extracted
 - Effort: 5/10 — define process, update README, maybe add a folder
 - Risk: 2/10 — low stakes
