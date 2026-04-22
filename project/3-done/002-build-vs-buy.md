@@ -15,10 +15,23 @@ Research whether claude-container should exist or if prebuilt alternatives achie
 
 - Captured: 2026-04-12
 - Refined: 2026-04-12
+- Started: 2026-04-22
+- Verified: 2026-04-22
+- Done: 2026-04-22
 
 ## Details
 
 - Not just a framework discussion — this is about whether claude-container deserves to exist.
 - claude-container is a platform (tools, plugins, security, extensibility for containerized agent environments), not an application. Alternatives need to be evaluated against that scope.
 - Compare both free/open-source and paid options.
-- Closely related to distill-project-goals — need to know what we're building before we can evaluate alternatives against it.
+- Additional requirement: model flexibility — delegate to free/open-source models to conserve paid limits.
+
+### Verdict: Build
+
+No existing solution covers the full requirements. Key gaps across all alternatives: spin detection, notifications, token budgeting + model flexibility + full extensibility combined.
+
+Full report: `docs/build-vs-buy.md`
+
+## Verification
+
+Research documented in `docs/build-vs-buy.md` with comparison tables for 16 alternatives (8 open source, 8 paid) against 8 requirements.
