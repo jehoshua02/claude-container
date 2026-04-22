@@ -70,6 +70,21 @@ From the [autonomy roadmap](../project/3-done/001-autonomy-roadmap.md) and [proj
 
 claude-container's value is the opinionated integration of containment + autonomy infrastructure + extensibility that doesn't exist elsewhere.
 
+## Architectural decision: two containers, one command
+
+We explored whether claude-container could be a single `docker run` drop-in. Conclusion: **no, for untrusted agents.**
+
+Airtight egress control requires network-level isolation — the agent must have no network path to the internet except through a proxy. This is impossible in a single container because the agent process could open raw sockets and bypass any in-process proxy.
+
+The minimum architecture for untrusted agents is two containers:
+
+- **Proxy container** — mitmproxy + enforcer, bridges internal and external networks
+- **Agent container** — Claude Code on an internal-only Docker network, no direct internet access
+
+This is proven in the [egress-control-poc](https://github.com/jehoshua02/egress-control-poc). Three enforcement layers: SNI check, domain/IP allowlist, and URL path rules via TLS interception.
+
+Deployment is still one command: `docker compose up`. Users don't need to understand the internals. Configuration via env vars and an allowlist file.
+
 ---
 
 *Researched 2026-04-22. Evaluate again if OpenHands or another platform closes the gaps.*
