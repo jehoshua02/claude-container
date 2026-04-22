@@ -4,10 +4,10 @@
 
 Research whether claude-container should exist or if prebuilt alternatives achieve the same goals. Hunt down and compare open source and paid options.
 
-## Priority: 059
+## Priority: 002
 
 - Value: 9/10 — existential question; if a good alternative exists, saves massive effort building the wrong thing
-- Momentum: 2/10 — nothing started
+- Momentum: 5/10 — project goals and autonomy roadmap now defined, clear requirements to evaluate against
 - Effort: 9/10 — requires real research: finding alternatives, comparing features, evaluating fit
 - Risk: 5/10 — low downside to doing the research; slight risk of analysis paralysis
 
