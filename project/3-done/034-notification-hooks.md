@@ -15,6 +15,7 @@ Add Claude Code notification hook that pushes to phone (via ntfy.sh) when Claude
 
 - Captured: 2026-04-21
 - Refined: 2026-04-21
+- Done: 2026-04-22
 
 ## Details
 
@@ -23,3 +24,7 @@ Add Claude Code notification hook that pushes to phone (via ntfy.sh) when Claude
 - HTTP hook handler → ntfy.sh (free, no account needed, phone app available).
 - Ready-made options exist: `777genius/claude-notifications-go`, `teito-dev/claudecode-pushover-integration`.
 - Scope: claude-container config (hooks in settings or plugin).
+
+### Closed — not needed
+
+Evaluated ntfy.sh (hosted + self-hosted), Gotify, and Termux notifications. All push solutions require either Firebase (Google sees messages) or persistent WebSocket (battery drain). SSH via Tailscale already provides on-demand visibility — can attach to running Claude process directly. No extra notification infrastructure needed.
