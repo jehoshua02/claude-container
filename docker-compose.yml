@@ -47,3 +47,17 @@ services:
         limits:
           memory: 4g
           cpus: "2"
+
+  markdown-viewer:
+    image: dannyben/madness
+    container_name: markdown-viewer
+    command: server
+    working_dir: /docs
+    ports:
+      - "8080:3000"
+    volumes:
+      - ./volumes/workspace:/docs:ro
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
