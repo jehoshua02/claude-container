@@ -33,11 +33,16 @@ if [ ! -f ~/.claude/settings.json ]; then
 fi
 cp ~/CLAUDE.default.md ~/.claude/CLAUDE.md
 
-# Install plugins on first run (marker file prevents re-running)
-if [ -f ~/plugins.sh ] && [ ! -f ~/.claude/.plugins-installed ]; then
-  echo "Installing plugins..."
-  ~/plugins.sh && mkdir -p ~/.claude && touch ~/.claude/.plugins-installed
-  # Fix execute permissions on plugin hook scripts (lost on read-only filesystem)
+# Install plugins on first run, update on every startup
+if [ -f ~/plugins.sh ]; then
+  if [ ! -f ~/.claude/.plugins-installed ]; then
+    echo "Installing plugins..."
+    ~/plugins.sh && mkdir -p ~/.claude && touch ~/.claude/.plugins-installed
+  fi
+  echo "Updating plugins..."
+  claude plugin list 2>/dev/null | sed -n 's/.*❯ \(\S\+\)/\1/p' | while read -r plugin; do
+    claude plugin update "$plugin" 2>/dev/null || true
+  done
   find ~/.claude/plugins/cache -name "*.sh" -exec chmod +x {} \;
 fi
 
