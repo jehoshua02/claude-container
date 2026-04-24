@@ -20,7 +20,6 @@ services:
     volumes:
       - ./volumes/workspace:/workspace
       - ./volumes/claude-data:/home/claude/.claude
-      - ./volumes/claude-settings:/home/claude/.config/claude
       - ./volumes/claude.json:/home/claude/.claude.json
     working_dir: /workspace
     # Drop all Linux capabilities. The container doesn't need any (no net_bind, no chown, etc).

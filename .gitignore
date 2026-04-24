@@ -4,7 +4,5 @@ secrets/*
 volumes/workspace/*
 volumes/claude-data/*
 volumes/claude.json
-volumes/claude-settings/*
 !volumes/workspace/.gitkeep
 !volumes/claude-data/.gitkeep
-!volumes/claude-settings/.gitkeep
