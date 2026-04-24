@@ -52,4 +52,18 @@ if [ "${1:-}" = "remote-control" ]; then
   exec sh -c 'echo y | claude "$@"' -- "$@"
 fi
 
+# Auto-add structured output for --print mode (makes docker logs useful)
+has_print=false
+has_output_format=false
+for arg in "$@"; do
+  case "$arg" in
+    --print|-p) has_print=true ;;
+    --output-format) has_output_format=true ;;
+  esac
+done
+
+if $has_print && ! $has_output_format; then
+  exec claude --output-format stream-json "$@"
+fi
+
 exec claude "$@"
