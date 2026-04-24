@@ -41,6 +41,16 @@ services:
     tmpfs:
       - /tmp:uid=1000,gid=1000
       - /home/claude/.ssh:uid=1000,gid=1000
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /proc/1/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     deploy:
       resources:
         limits:
