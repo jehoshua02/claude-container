@@ -1,4 +1,25 @@
 {
-  "permissions": {},
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Edit(*)",
+      "Write(*)"
+    ]
+  },
+  "enabledPlugins": {
+    "stout@jehoshua02": true,
+    "trail@jehoshua02": true,
+    "caveman@jehoshua02": true,
+    "frugal@jehoshua02": true
+  },
+  "extraKnownMarketplaces": {
+    "jehoshua02": {
+      "source": {
+        "source": "github",
+        "repo": "jehoshua02/claude-marketplace"
+      }
+    }
+  },
   "mcpServers": {}
 }
