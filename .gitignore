@@ -5,4 +5,5 @@ volumes/workspace/*
 volumes/claude-data/*
 volumes/claude.json
 !volumes/workspace/.gitkeep
+!volumes/workspace/.gitignore
 !volumes/claude-data/.gitkeep
