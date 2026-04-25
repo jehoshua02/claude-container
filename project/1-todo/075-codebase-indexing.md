@@ -4,7 +4,7 @@
 
 Ship the agent container with built-in codebase indexing and search tooling so the agent can navigate code efficiently without burning tokens reading every file.
 
-## Priority: 048
+## Priority: 075
 
 - Value: 8/10 — directly reduces token waste, core concern
 - Momentum: 3/10 — fresh capture, no related work done
